@@ -16,7 +16,7 @@ view_data function
 short description of data: summaries and plots
 }
 \examples{
-overview_data(df = ggplot2::diamonds)
+view_data(df = ggplot2::diamonds)
 
 
 }
