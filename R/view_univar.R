@@ -18,7 +18,7 @@
 view_univar <- function(df, ...) {
 
 
-  # names of variables which are discrete and continuous, using funModeling
+  # names of variables which are discrete and continuous, using DataExplorer
   dnames <-names(split_columns(df)$discrete)
   cnames <- names(split_columns(df)$continuous)
 
@@ -57,38 +57,9 @@ view_univar <- function(df, ...) {
   # categorical ecdf not interesting
 
 
-  # outliers, univariate -----------------------------------------------
-  # using Tukey
-  lapply(cnames, FUN=function(x) {
-    c(
-      x,
-      funModeling::tukey_outlier(df$x)
-    )
-  }
-  )
-
-  # using Hampel
-  lapply(cnames, FUN=function(x) {
-    c(
-      x,
-      funModeling::hampel_outlier(df$x)
-    )
-  }
-  )
 
   ### ------ to do -----------------
-  ##  add more tests for outliers ***
-  ### ---------------------------------
 
-  # qqplots ----------------------------------------------------------------
-  DataExplorer::plot_qq(df)
-
-  # boxplots ----------------------------------------------------------------
-  #
-  lapply(dnames, FUN=function(x) {
-    DataExplorer::plot_boxplot(df, x )
-  }
-  )
 
 
 

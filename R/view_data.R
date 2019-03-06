@@ -42,7 +42,7 @@ view_data <- function(df, ...) {
   dnames <-names(split_columns(df)$discrete)
   cnames <- names(split_columns(df)$continuous)
 
-  ###-------- to do --------------------------------------------------------------------------------------
+  ###-------- done already by dataExplorer --------------------------------------------------------------------------------------
   ### remove some features since too much missing data ***, ex
   # dat[, -which(colMeans(is.na(dat)) > 0.5)]
   #
@@ -61,13 +61,13 @@ view_data <- function(df, ...) {
   #getOption("fftempdir")
     ##ff:setOptions("fftempdir" = getwd())
   plot_list <-
-  lapply(cnames, FUN=function(x) {
-    tabplot::tableplot(dat=df, sortCol=x)
+  lapply(cnames, FUN=function(x0) {
+    tabplot::tableplot(dat=df, sortCol=df[[x0]])
   }
   )
 
 
-  ### to do:  save all these plots into a unique report file
+  ### to do:  save all these plots into a unique report-html file as for the final report****
 
   #------------------------------------------------------------------------
 

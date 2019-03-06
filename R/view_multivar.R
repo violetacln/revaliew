@@ -3,7 +3,7 @@
 #' multivariate analysis
 #' @param df input data
 #' ....other important comments
-#'
+#' @import GGally
 #' @import tidyverse
 #' @import magrittr
 #' @import DataExplorer
@@ -21,24 +21,67 @@
 
 view_multivar <- function(df, ...) {
 
-  # -------- multivariate analysis ---------------------------------------
+#-------- multivariate analysis ---------------------------------------
 
-  # names of variables which are discrete and continuous, using funModeling
-  dnames <-names(split_columns(df)$discrete)
-  cnames <- names(split_columns(df)$continuous)
+
+
+#---------- pairwise plots for all variables -------
+
+   df <- ggplot2::diamonds ###just for testing ; to be removed ----*************
+
+# names of variables which are discrete and continuous, using funModeling
+dnames <- names(DataExplorer::split_columns(df)$discrete)
+cnames <- names(DataExplorer::split_columns(df)$continuous)
+
+theme_set(theme_bw())
+
+
+# it creates several pages of plots (in RStudio)
+# to include ifelse -- on number of variables too large etc ***
+lapply(dnames, FUN=function(var) {
+    GGally::ggpairs(
+                  df
+                  #select(df,cnames)
+                 ,aes(
+                        colour = df[[var]]
+                      )
+                  )
+                                  }
+  )
+
+## or the most general correlation plots: for any type of var
+#mg <- select(micro_s, logwage, exper_total, time_arbitr, eduShort, occup, econ_activ)
+
+DataExplorer::plot_correlation(data=df, type = c("all", "discrete", "continuous"),
+          maxcat = 20L, cor_args = list(),
+          title = NULL,
+          ggtheme = theme_gray(),
+          theme_config = list(legend.position ="bottom",
+          axis.text.x = element_text(angle 90)))
+
+
+
+
+
+#-----------------------------
 
 
   ## dataExplorer style
-  #correlationa
+  #correlations
   plot_correlation(df)
   # principal components
   plot_prcomp(df)
 
+
+
+
+#---------- older --------------------------------------------
+
   # scatterplots, for each of the continuous variables
   # select only one, randomly, since this is very slow
-  seed=99
-  random_feature <- sample(cnames, 1)
-  DataExplorer::plot_scatterplot(df, by= random_feature )
+  #seed=99
+  #random_feature <- sample(cnames, 1)
+  #DataExplorer::plot_scatterplot(df, by= random_feature )
 
 
   ### to generalize the following
@@ -159,12 +202,6 @@ view_multivar <- function(df, ...) {
   # -------------------------------------------------------------------------------
 
 
-  # outliers --------***--------------------------------
-
-  # multivariate outliers: see some distance based, like leverage, Cooks's:
-  # need to do: model <- lm(Y~., data=someData) for example; then do:  cooks.distance(model);
-
-  # can do boxplots for bivar
   # ------------------------------------------------------
 
   # empirical cumulative distribution functions, even for multivariate case ------------
