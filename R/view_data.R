@@ -9,8 +9,8 @@
 #' @import DataExplorer
 #' @import funModeling
 #' @import ggplot2
-#' @import  rmarkdown
-#' @import  tabplot
+#' @import rmarkdown
+#' @import tabplot
 #' @import skimr
 #' @import ff
 #' @export
@@ -42,33 +42,25 @@ view_data <- function(df, ...) {
   dnames <-names(split_columns(df)$discrete)
   cnames <- names(split_columns(df)$continuous)
 
-  ###-------- done already by dataExplorer --------------------------------------------------------------------------------------
-  ### remove some features since too much missing data ***, ex
-  # dat[, -which(colMeans(is.na(dat)) > 0.5)]
-  #
-  ### regroup some features since too many categories ***
-  #***********************
-  ### reorder categories by some continuous variable when interesting ...
-  #-----------------------------------------------------------------------
-
   DataExplorer::plot_intro(df)
 
   DataExplorer::plot_missing(df)
+
+
 
   # table plots from tabplot package
     # make ff package work correctly:
     # with: set options(fftempdir = "path/to/your/folder") to a folder where you have access to
   #getOption("fftempdir")
     ##ff:setOptions("fftempdir" = getwd())
+  if (nrow(df) > 50000) {  df = df[sample(rownames(df), size=50), ]  }    ### set this as on option whih could be adjusted
+
   plot_list <-
   lapply(cnames, FUN=function(x0) {
     tabplot::tableplot(dat=df, sortCol=df[[x0]])
   }
   )
 
-
-  ### to do:  save all these plots into a unique report-html file as for the final report****
-
-  #------------------------------------------------------------------------
+#------------------------------------------------------------------------
 
 }

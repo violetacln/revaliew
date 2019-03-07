@@ -30,13 +30,14 @@ view_univar <- function(df, ...) {
 
   # Cumulative_df's of numerical variables
   # using points
-  lapply(cnames, FUN=function(x) {
-    ggplot(df, aes(x)) + stat_ecdf(geom = "point") +
-      xlab(x)
+  lapply(cnames, FUN=function(var) {
+    ggplot(df, aes(df[[var]])) + stat_ecdf(geom = "point") +
+      xlab(df[[var]])
   }
   )
   #or with lines
   #ggplot(df, aes(depth)) + stat_ecdf(geom = "step")
+
 
   # pdf's of categorical variables
   # plot_bar(df, maxcat=400L)
@@ -54,13 +55,7 @@ view_univar <- function(df, ...) {
   ##  }
   ##  )
 
-  # categorical ecdf not interesting
-
-
-
-  ### ------ to do -----------------
-
-
+  # categorical ecdf not relevant :)
 
 
 }

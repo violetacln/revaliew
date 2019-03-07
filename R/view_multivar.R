@@ -23,11 +23,8 @@ view_multivar <- function(df, ...) {
 
 #-------- multivariate analysis ---------------------------------------
 
-
-
 #---------- pairwise plots for all variables -------
 
-   df <- ggplot2::diamonds ###just for testing ; to be removed ----*************
 
 # names of variables which are discrete and continuous, using funModeling
 dnames <- names(DataExplorer::split_columns(df)$discrete)
@@ -36,8 +33,10 @@ cnames <- names(DataExplorer::split_columns(df)$continuous)
 theme_set(theme_bw())
 
 
-# it creates several pages of plots (in RStudio)
-# to include ifelse -- on number of variables too large etc ***
+# it creates several pages of plots
+# thin it out:
+if (nrow(df) > 50000) {  df = df[sample(rownames(df), size=50), ]  }
+                    ### set this as on option whih could be adjusted
 lapply(dnames, FUN=function(var) {
     GGally::ggpairs(
                   df
@@ -49,33 +48,22 @@ lapply(dnames, FUN=function(var) {
                                   }
   )
 
-## or the most general correlation plots: for any type of var
-#mg <- select(micro_s, logwage, exper_total, time_arbitr, eduShort, occup, econ_activ)
+
+## ------ most general correlation plots: for any type of var
 
 DataExplorer::plot_correlation(data=df, type = c("all", "discrete", "continuous"),
           maxcat = 20L, cor_args = list(),
           title = NULL,
           ggtheme = theme_gray(),
           theme_config = list(legend.position ="bottom",
-          axis.text.x = element_text(angle 90)))
-
-
-
+          axis.text.x = element_text(angle=90)))
 
 
 #-----------------------------
 
 
-  ## dataExplorer style
-  #correlations
-  plot_correlation(df)
-  # principal components
-  plot_prcomp(df)
 
-
-
-
-#---------- older --------------------------------------------
+#---------- older versions  --------------------------------------------
 
   # scatterplots, for each of the continuous variables
   # select only one, randomly, since this is very slow
