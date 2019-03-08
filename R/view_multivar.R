@@ -1,6 +1,6 @@
 
 #' view_multivar function
-#' multivariate analysis and views: pairwise plots, correlations
+#' multivariate analysis and views: pairwise plots, correlations, cumulative distributions
 #' @param df input data
 #' ....other important comments
 #' @import GGally
@@ -71,14 +71,7 @@ DataExplorer::plot_correlation(data=df, type = c("all", "discrete", "continuous"
 
   # empirical cumulative distribution functions, even for multivariate case ------------
   #library(Hmisc)
-  #pre.test <- rnorm(100, 50, 10)
-  #post.test <- rnorm(100, 55, 10)
-  #m <- data.frame(pre.test, post.test, sex=sample(c('male','female'),100,TRUE))
-  ##for
-  #e1 <- Ecdf(pre.test)
-  #e1b <- Ecdf(post.test)
-  ##or
-  #e2 <- Ecdf(m, group=m$sex, datadensity='rug')
+  # Ecdf()
 
   # may do Trellis plots also...
   #--------------------------------------------------------------------

@@ -36,19 +36,9 @@ view_univar <- function(df, ...) {
   }
   )
 
-
   # pdf's of categorical variables
   # plot_bar(df, maxcat=400L)
   DataExplorer::plot_bar(df)
-
-  ##lapply(dnames, FUN = function(xx) {
-  ##   xx <- df$xx
-  #    df %>%
-  #    mutate(cut = cut %>% fct_infreq() %>% fct_rev()) %>%
-  #             ggplot(aes(cut))+
-  #             geom_bar()
-  ##  }
-  ##  )
 
   # categorical ecdf not relevant :)
 
