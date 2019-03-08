@@ -1,2 +1,4 @@
 ^revaliew\.Rproj$
 ^\.Rproj\.user$
+^packrat/
+^\.Rprofile$
