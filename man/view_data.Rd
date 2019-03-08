@@ -3,7 +3,7 @@
 \name{view_data}
 \alias{view_data}
 \title{view_data function
-short description of data: summaries and plots}
+short description of data: only summaries and summarizing plots}
 \usage{
 view_data(df, ...)
 }
@@ -13,7 +13,7 @@ view_data(df, ...)
 }
 \description{
 view_data function
-short description of data: summaries and plots
+short description of data: only summaries and summarizing plots
 }
 \examples{
 view_data(df = ggplot2::diamonds)

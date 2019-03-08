@@ -1,7 +1,6 @@
 
-
 #' view_outliers function
-#' short description of data: plots and scores for outlier detection
+#' plots and scores for outlier detection
 #' @param df input data
 #' ....other important comments
 #'
@@ -12,7 +11,6 @@
 #' @import ggplot2
 #' @import rmarkdown
 #' @import tabplot
-#' @import skimr
 #' @import outliers
 #'
 #' @export
@@ -47,9 +45,6 @@ lapply(cnames, FUN=function(x0) {
 }
 )
 
-#--- more univariate: package O3
-#....
-
 
 # qqplots ----------------------------------------------------------------
 DataExplorer::plot_qq(df)
@@ -61,7 +56,7 @@ lapply(dnames, FUN=function(var) {
   }
       )
 
-##more tests for outliers ------------ to create option for prob ***
+#--- more tests for outliers ------------ to create option for prob ***
 lapply(cnames, FUN=function(x0){
 
   outliers::scores(x0, type="z", prob=0.95)
@@ -72,7 +67,7 @@ lapply(cnames, FUN=function(x0){
                              }
       )
 
-#----- comparing many maethods, using package O3 ---------
+#----- comparing many methods, using package O3 ---------
 O3m <- O3prep(df, method=c("HDo", "PCS"))
 O3m1 <- O3plotM(O3m)
 grid.arrange(O3m1$gO3, O3m1$gpcp, ncol=1)

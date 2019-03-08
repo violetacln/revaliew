@@ -3,7 +3,7 @@
 \name{view_univar}
 \alias{view_univar}
 \title{view_univar function
-univariate analysis: distribution functions and outliers}
+univariate analysis: distribution functions}
 \usage{
 view_univar(df, ...)
 }
@@ -13,7 +13,7 @@ view_univar(df, ...)
 }
 \description{
 view_univar function
-univariate analysis: distribution functions and outliers
+univariate analysis: distribution functions
 }
 \examples{
 overview_univar(df = ggplot2::diamonds)

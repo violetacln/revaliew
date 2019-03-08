@@ -1,6 +1,6 @@
 
 #' view_data function
-#' short description of data: summaries and plots
+#' short description of data: only summaries and summarizing plots
 #' @param df input data
 #' ....other important comments
 #'
@@ -22,8 +22,6 @@ view_data <- function(df, ...) {
 
   # make sure characters as factors
    df %<>% dplyr::mutate_if(is.character, as.factor)
-
-  #we may have other factors, too, represented by discrete values
 
   #shortest overview
   funModeling::df_status(df)
