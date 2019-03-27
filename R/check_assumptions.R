@@ -8,7 +8,7 @@
 #' @export
 #' @examples check_assumptions(df = ggplot2::diamonds, assumption = ..., test_name= ...)
 #'
-#' this is till a placeholder, under construction
+#' this is still a placeholder, under construction
 
 check_assumptions <- function(df, assumption, test_name) {
   #--------------
