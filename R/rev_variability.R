@@ -1,18 +1,18 @@
-#' basic_variability function for general data sets
-@param df input data
+#' rev_variability function for general data sets
+#' @param df input data
 #' ...other important comments
-@import boot
-@import DataExplorer
-@export 
-@examples basic_variability(df=ggplot::diamonds)
+#' @import boot
+#' @import DataExplorer
+#' @export
+#' @examples rev_variability(df=ggplot::diamonds)
 #' the main resource for this function is the package boot
 citation("boot")
 #' the basic methods of resampling with replacement, paramteric and nonparametric, are general enough to cover
 #' main statistics for general data sets and basic modeling formulae
-#' with confidence intervals and corresponding plots 
+#' with confidence intervals and corresponding plots
 #' for details one is referred to the boot package manual
 
-basic_variability <- function(df, ...) {
+rev_variability <- function(df, ...) {
 
 
 #---------------------- continuous variables
@@ -27,9 +27,10 @@ lapply(cnames, FUN=function(var) {
         lapply(c(1:length(stats)), FUN=function(i) {
                     plot(res, index=i)
                     boot.ci(res, type="bca", index=i)
-                    }
-  }        
 
+                    })
+
+       })
 
 #---------------------- categorical variables
 # use Shannon's entropy for example as a measure

@@ -3,7 +3,7 @@
 \name{view_multivar}
 \alias{view_multivar}
 \title{view_multivar function
-multivariate analysis and views: pairwise plots, correlations}
+multivariate analysis and views: pairwise plots, correlations, cumulative distributions}
 \usage{
 view_multivar(df, ...)
 }
@@ -13,7 +13,7 @@ view_multivar(df, ...)
 }
 \description{
 view_multivar function
-multivariate analysis and views: pairwise plots, correlations
+multivariate analysis and views: pairwise plots, correlations, cumulative distributions
 }
 \examples{
 overview_multivar(df = ggplot2::diamonds)
