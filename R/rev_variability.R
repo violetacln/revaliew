@@ -19,6 +19,12 @@ rev_variability <- function(df, ...) {
 dnames <- names(DataExplorer::split_columns(df)$discrete)
 cnames <- names(DataExplorer::split_columns(df)$continuous)
 
+
+# could also use : moments and cumulants of continuous variables, up to 6th order
+# as in
+# SimMultiCorrData::calc_moments()
+
+
 set.seed(111)
 lapply(cnames, FUN=function(var) {
         stats <- c(mean(var),median(var), sd(var), skewness(var))
@@ -34,6 +40,7 @@ lapply(cnames, FUN=function(var) {
 
 #---------------------- categorical variables
 # use Shannon's entropy for example as a measure
+
 
 
 }
