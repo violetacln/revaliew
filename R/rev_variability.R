@@ -40,7 +40,7 @@ lapply(cnames, FUN=function(var) {
 
 #---------------------- categorical variables
 # use Shannon's entropy for example as a measure
-
+# see github---- funModeling---information_theory.R functions
 
 
 }
