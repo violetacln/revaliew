@@ -2,9 +2,9 @@
 #'  for main diagnostics on goodness of fit
 #'  residual testing
 #'
-#' @ param mts mts=m means glm or lm model, mts=ts means time series model
+#' @param mts mts=m means glm or lm model, mts=ts means time series model
 #'
-#' @ parameter model_a,  any fitted glm or lm model
+#' @parameter model_a,  any fitted glm or lm model
 #'
 #' ...other important comments
 #' .....
@@ -15,7 +15,7 @@
 rev_model <- function( mts, model_a, ...) {
 
   if (mts==m)
-    #model, regression type or glm
+    #model is regression type or glm
   {
 
   print(raintest(model_a, order.by="mahalanobis"))
@@ -23,7 +23,8 @@ rev_model <- function( mts, model_a, ...) {
   ### J.M. Utts (1982), The Rainbow Test for Lack of Fit in Regression.
   ### Communications in Statistics -- Theory and Methods 11,2801--2815.
 
-  dwtest(model_a)  #--------------Durbin-Watson-Test on autocorrelation of disturbances
+  dwtest(model_a)
+  #--------------Durbin-Watson-Test on autocorrelation of disturbances
 
   dev.new()
   hist(residuals(model_a))
@@ -31,12 +32,11 @@ rev_model <- function( mts, model_a, ...) {
   #---------- normality test for residuals of models
   print(jarque.bera.test(residuals(model_a)))
 
-  ##now a GOF test based on an entropy measure
+  ##a GOF test based on an entropy measure
   #Justine Lequesne, Philippe Regnault. vsgoftest:
   #An R Package for Goodness-of-Fit Testing Based on
   #Kullback-Leibler Divergence. 2018. ￿hal-01816063
   vsgoftest::vs.test(residual(model_a), dnorm)
-
 
   }
 

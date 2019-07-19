@@ -3,11 +3,15 @@
 \name{rev_ts}
 \alias{rev_ts}
 \title{rev_ts function
-#' for main diagnostics on general time series data}
+ for main diagnostics on general time series data
+auto-correlation, cross-correlation, stationarity tests,
+seasonality and related measures}
 \usage{
 rev_ts(df, ...)
 }
 \description{
 rev_ts function
-#' for main diagnostics on general time series data
+ for main diagnostics on general time series data
+auto-correlation, cross-correlation, stationarity tests,
+seasonality and related measures
 }
