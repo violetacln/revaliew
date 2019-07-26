@@ -8,13 +8,15 @@
 #' .....
 #' .....
 #' to add: import, export, examples # ***
-
-#' the main resources for this function are .............
+#' @import anomalous, forecast
+#'
 #' @export
+#' @example rev_ts(z = ts(matrix(rnorm(3000),ncol=100),freq=4))
 
-rev_ts <- function(df, ...) {
 
-  # example instead of some data df or one of its columns
+rev_ts <- function(z, ...) {
+
+# example instead of some data df or one of its columns
 
 xxxx <- rnorm(100) # null
 tseries::jarque.bera.test(xxxx)
@@ -36,7 +38,7 @@ tseries::adf.test(rnorm(100))
 forecast::Acf(xxxx)
 forecast::Pacf(xxxx)
 
-#cross-correlations of two series
+#cross-correlations of any two series
 forecast::Ccf(xxxx, yyyy)
 
 ##tapered versions as in Hyndman (2015), Discussion of High-dimensional autocovariance matrices ..."
@@ -49,6 +51,16 @@ forecast::Ccf(xxxx, yyyy)
 #'seasonality complete analysis, see Robert Hyndamnn, as at:
 #' https://robjhyndman.com/hyndsight/tscharacteristics/
 
+# use Hyndman´s anomalous package --------------
+#ex
+
+z <- ts(matrix(rnorm(3000),ncol=100),freq=4)
+y <- anomalous::tsmeasures(z)
+anomalous::biplot.features(y)
+anomalous::anomaly(y)
+
+
+#--------- detailed calculation -------------
 
 # f1 maps (0,infinity) to (0,1)
 f1 <- function(x,a,b)
