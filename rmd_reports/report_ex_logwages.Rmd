@@ -28,8 +28,8 @@ For this report, a large sample from the wage data set is used, for speed and me
 
 ```{r data-frame to be analysed, get the data set}
 
-ch <- RODBC::odbcDriverConnect("DRIVER={SQL Server}; SERVER=ZEUS; trusted_connection=true")
-df0 <- RODBC::sqlQuery(ch,"SELECT * FROM adferdir.iwpi.micro where sector='B' ", as.is=TRUE)
+ch <- RODBC::odbcDriverConnect("DRIVER={SQL Server}; SERVER=XXXXXX; trusted_connection=true")
+df0 <- RODBC::sqlQuery(ch,"SELECT * FROM ZZZZZZZZZZZ where sector='B' ", as.is=TRUE)
 close(ch)
 
 if (nrow(df0) > 30000) {  df <- df0[sample(rownames(df0), size=30000), ]  } 

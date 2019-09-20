@@ -30,8 +30,8 @@ For this report, a large sample from the whole register is extracted, for speed 
 ```{r data-frame to be analysed, get the data set}
 
 #df <- ggplot2::diamonds
-ch <- RODBC::odbcDriverConnect("DRIVER={SQL Server}; SERVER=ZEUS; trusted_connection=true")
-df0 <- RODBC::sqlQuery(ch," select gender, info_source, edu, edu_field, country_grad,age, year_graduation, year_birth from adferdir.iwpi.educOut", as.is=TRUE)
+ch <- RODBC::odbcDriverConnect("DRIVER={SQL Server}; SERVER=XXX; trusted_connection=true")
+df0 <- RODBC::sqlQuery(ch," select gender, info_source, edu, edu_field, country_grad,age, year_graduation, year_birth from ZZZZZZZ", as.is=TRUE)
 close(ch)
 
 if (nrow(df0) > 30000) {  df <- df0[sample(rownames(df0), size=30000), ]  } 
