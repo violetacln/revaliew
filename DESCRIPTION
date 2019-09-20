@@ -7,6 +7,25 @@ Authors@R:
            role = c("aut", "cre"),
            email = "violeta.calian@hagstofa.is")
 Description: Methods of data mining and statistical analysis are used for validation of data content and models employed during production processes of official statistics. New functions are gradually added for speeding these tasks and are based on existing R-packages. 
+Imports: 
+    DataExplorer,
+    funModeling,
+    tidyverse,
+    magrittr,
+    dplyr,
+    tseries,
+    DDoutlier, 
+    anomalous,
+    arules,
+    cluster,
+    factoextra,
+    ggplot2,
+    SimMultiCorrData,
+    boot,
+    vsgoftest,
+    lmtest
+Suggests:
+    testthat
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
