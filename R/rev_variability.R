@@ -5,10 +5,9 @@
 #' @import DataExplorer
 #' @import SimMultiCorrData
 #' @import funModeling
-#' @export
 #' @examples rev_variability(df=ggplot2::diamonds)
 #'
-
+#' @export
 
 rev_variability <- function(df, ...) {
 

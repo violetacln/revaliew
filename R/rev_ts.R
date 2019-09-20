@@ -17,9 +17,8 @@
 #'
 #' @export
 
-#' univariate ts
 rev_ts_univ <- function(tsuniv, ...) {
-
+# univariate ts
  rlist_univ <- list(
         tseries::jarque.bera.test(tsuniv),
         tseries::kpss.test(tsuniv),
@@ -37,10 +36,11 @@ rev_ts_univ <- function(tsuniv, ...) {
 # forecast::taperedacf(xxxx)
 # forecast::taperedpacf(xxxx)
 
-#' multivariate ts
-#' using Hyndman´s anomalous and tsfeatures packages --------------
-#' https://robjhyndman.com/hyndsight/tscharacteristics/
-#'
+# multivariate ts
+# using Hyndman´s anomalous and tsfeatures packages --------------
+# https://robjhyndman.com/hyndsight/tscharacteristics/
+#
+
 rev_ts_multiv <- function(tsmultiv, ...) {
   library(anomalous) ## need to include this
   ## also issues with R version and some dependencies

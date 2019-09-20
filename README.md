@@ -1,5 +1,5 @@
 # revaliew
-This package aims to automate basic workflows for advanced data validation and review, by using statistical analysis in order to: 
+This package aims to automate basic workflows for advanced data VALidation and REvIEW, by using statistical analysis in order to: 
 
 describe the main uni and multi-variate characteristics of a data set;
 
@@ -13,4 +13,5 @@ report using quantitative measures and visual representations.
 
 This is based on a large number of excellent and well known R-packages.
 
-The revaliew - package is under construction.
+The revaliew - package is still under construction. This work is supported by the Eurostat grant number 826000 on validation implementation.
+

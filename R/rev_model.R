@@ -12,10 +12,8 @@
 #' rev_model_ts(model_a=model_ex_ts)
 #' @export
 
-
-#------- model is regression type or glm ----------------------
 rev_model <- function(model_a, ...) {
-
+  #------- model is regression type or glm ----------------
   raintesting <- lmtest::raintest(model_a, order.by="mahalanobis")
   print(raintesting)
   #------------------------ rainbow test for linearity

@@ -13,9 +13,9 @@
 #' @examples view_assoc(df = datasets::iris)
 #' @export
 
-#' this can be used for rule discovery!!!
-
 view_assoc <- function(df, ...) {
+
+# this can be used for rule discovery!!!
 
 # reading
 # http://r-statistics.co/Association-Mining-With-R.html
@@ -41,5 +41,7 @@ apriori_res <- inspect(rules)
 #inspect(head(r1, n=3, by="confidence"))
 
 clusters_found <- list(eclat_res, apriori_res, eclat_plot)
+
 return(clusters_found)
+
 }

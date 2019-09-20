@@ -107,7 +107,7 @@ outliers_table_Hampel <-
 
 #---v2---- testing DDoutlier ------------
 # https://cran.r-project.org/web/packages/DDoutlier/index.html
-# citation("DDoutlier")
+#
 
 # dataset
 X <- df
