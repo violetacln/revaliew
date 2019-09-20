@@ -16,8 +16,5 @@ view_univar function
 univariate analysis: distribution functions
 }
 \examples{
-overview_univar(df = ggplot2::diamonds)
-
-
-
+view_univar(df = ggplot2::diamonds)
 }

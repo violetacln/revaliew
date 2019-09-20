@@ -17,6 +17,4 @@ short description of data: only summaries and summarizing plots
 }
 \examples{
 view_data(df = ggplot2::diamonds)
-
-
 }

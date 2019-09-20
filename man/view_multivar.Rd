@@ -16,7 +16,5 @@ view_multivar function
 multivariate analysis and views: pairwise plots, correlations, cumulative distributions
 }
 \examples{
-overview_multivar(df = ggplot2::diamonds)
-
-
+view_multivar(df = ggplot2::diamonds)
 }

@@ -1,0 +1,283 @@
+---
+title: 'Example 1: report for a data-set of a multiple-source register'
+author: "violeta"
+date: "July 29, 2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown DEFAULT
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots DEFAULT
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+## Data set and main information 
+
+about:
+
+time-variables, ts - variables, 
+
+modeled - variables, imputed-variables
+
+```{r data-frame to be analysed, first: test data}
+
+df <- ggplot2::diamonds
+
+```
+
+
+### Output of this report: pdf, html 
+
+### Plots: static / interactive
+
+### Dashboards
+
+
+## view_data(): overview of main data-set characteristics
+
+```{r view_data}
+library(DataExplorer, Hmisc)
+#view_data(df)
+dnames <-names( DataExplorer::split_columns(df)$discrete)
+cnames <- names( DataExplorer::split_columns(df)$continuous)
+
+#short overview
+description <- Hmisc::describe(df)
+description
+
+# data univariate plots
+  p1 <- DataExplorer::plot_intro(df)
+  p2 <- DataExplorer::plot_missing(df)
+  p3 <- DataExplorer::plot_bar(df)
+  p4 <- DataExplorer::plot_histogram(df)
+  
+# table plots from tabplot package:
+
+ if (nrow(df) > 50000) {  df_short = df[sample(rownames(df), size=1000), ]  }    ### set this as on option whih could be adjusted
+
+  plot_list <-
+  lapply(cnames, FUN=function(x0) {
+   tabplot::tableplot(dat=df_short, sortCol=x0)$plot
+  }
+  )
+  
+```
+
+
+
+## view_univar(): marginal distributions
+```{r view_univar}
+
+ lapply(cnames, FUN=function(var) {
+   ggplot2::ggplot(df, ggplot2::aes(df[[var]])) +     ggplot2::stat_ecdf(geom = "point") +
+   ggplot2::xlab(var)
+  }
+  )
+
+
+```
+
+
+
+## view_multivar(): joint distributions
+```{r view_multivar}
+
+library(ggplot2)
+
+ggplot2::theme_set(ggplot2::theme_bw())
+
+# it creates several pages of plots
+# thin it out:
+
+if (nrow(df) > 20000) {  df = df[sample(rownames(df), size=100), ]  }
+              ### set this as on option whih could be adjusted
+
+lapply(dnames, FUN=function(varr) {
+    GGally::ggpairs(
+                  df
+                 , ggplot2::aes( colour = df[[varr]] )
+                    )
+                                  }
+       )
+
+
+## ------ most general correlation plots: for any type of var
+
+DataExplorer::plot_correlation(data=df, type = c("all", "discrete", "continuous"),
+          maxcat = 20L, cor_args = list(),
+          title = NULL,
+          ggtheme = theme_gray(),
+          theme_config = list(legend.position ="bottom",
+          axis.text.x = element_text(angle=90)))
+
+
+
+```
+
+
+
+## view_outliers()
+```{r view_outliers}
+
+# qqplots of continuous variables ------------------
+DataExplorer::plot_qq(df)
+
+# boxplots by each discrete -----------------
+#
+lapply(dnames, FUN=function(varr) {
+  DataExplorer::plot_boxplot( df, by=varr , geom_boxplot_args = list("outlier.color"="red"))
+  }
+      )
+
+# univar limits, using Tukey (interquartiles)
+lapply(cnames, FUN=function(x0) {
+  c(
+    x0,
+    funModeling::tukey_outlier(as.data.frame(df)[[x0]])
+  )
+}
+)
+
+# univar limits, using Hampel (median based )
+
+knitr::kable(
+  lapply(cnames, FUN=function(x0) {
+
+    c( x0, funModeling::hampel_outlier(df_short[[x0]]) )
+}
+)
+, format="markdown", col.names = " "
+)
+
+
+# more tests for outliers 
+#------ one score for each record, for each variable
+# too long. To find a representation of this!
+
+#lapply(cnames, FUN=function(x0){
+#which(
+#  outliers::scores(df[[x0]], type="t") == TRUE 
+#   )
+ ## other options
+ ## outliers::scores(df[[x0]], type="z")
+
+ ## outliers::scores(df[[x0]], type="iqr")
+ #                             }
+ #      )
+
+#----- comparing many methods, using package "OutliersO3" ---------
+# it works on continuous variables
+
+# comparing two methods
+# could add four more, at least: "BAC", "adjOut", "DDC, "MCD"
+# but this is rather slow even with two
+
+#O3m <- OutliersO3::O3prep(df[cnames], method=c("HDo", "PCS"))
+#O3m1 <- OutliersO3::O3plotM(O3m)
+#gridExtra::grid.arrange(O3m1$gO3, O3m1$gpcp, ncol=1)
+
+
+```
+
+## view_assoc
+
+It has also validation rules mining potential.
+Under development.
+
+```{r view_assoc}
+
+
+```
+
+## view_clusters
+```{r view_clusters}
+
+
+```
+
+## rev_variability()
+```{r rev_variability}
+#---------------------- categorical variables
+# use funModeling and information_theory measures, all:
+# entropy (en), mutual information (mi), information gain (ig), gain ratio (gr)
+
+d_res <- c("var1","var2"," "," "," ", " ")
+var1 <- character()
+var2 <- character()
+for (var1 in dnames){
+  for (var2 in dnames)
+    {
+    if(var1 != var2) {
+    d_res <- cbind(d_res, c(var1, var2,funModeling::infor_magic(input = df[[var1]],target =df[[var2]]))) }
+
+    }
+}
+
+d_res
+
+# continuous variables: using boot.ci seems to demand too much memory. To find a better solution
+
+
+```
+
+## rev_ts()
+```{r rev_ts}
+#mulitvar ---- with example series
+tsmultiv <- ts(matrix(rnorm(3000),ncol=100),freq=4)
+y <- anomalous::tsmeasures(tsmultiv)
+anomalous::biplot.features(y)
+anomalous::anomaly(y)
+tsfeatures::tsfeatures(tsmultiv)
+
+#univar--- with example series
+tsuniv <- ts(rnorm(1000))
+tsfeatures::tsfeatures(tsuniv)
+tseries::jarque.bera.test(tsuniv)
+tseries::kpss.test(tsuniv)
+tseries::kpss.test(tsuniv, null = "Trend")
+tseries::adf.test(tsuniv)
+forecast::Acf(tsuniv)
+forecast::Pacf(tsuniv)
+
+```
+
+## rev_model()
+```{r rev_model}
+
+
+```
+
+## check_assumptions()
+```{r check_assumptions}
+
+
+```
+
+## reviewed: as a report
+```{r as report}
+
+
+```
+
+

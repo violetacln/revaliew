@@ -7,58 +7,48 @@
 #' @import tidyverse
 #' @import magrittr
 #' @import DataExplorer
-#' @import funModeling
 #' @import ggplot2
 #' @import rmarkdown
 #' @import tabplot
-#' @import skimr
 #' @import ff
-#' @export
 #' @examples view_data(df = ggplot2::diamonds)
-#'
-#'
+#' @export
 
 view_data <- function(df, ...) {
 
-  # make sure characters as factors
-   df %<>% dplyr::mutate_if(is.character, as.factor)
+  # useful names of variables: discrete and continuous
+  dnames <-names(DataExplorer::split_columns(df)$discrete)
+  cnames <- names(DataExplorer::split_columns(df)$continuous)
 
-  #shortest overview
-  funModeling::df_status(df)
-  #few more details
-  skim(df) %>% skimr::kable()
+  #short overview
+   description <- Hmisc::describe(df)
+ # data univariate plots
 
-  # continuous variables
-  # using funModeling
-  funModeling::profiling_num(df)
+  p1 <- DataExplorer::plot_intro(df)
 
-  # discrete
-  # using dataExplorer
-  DataExplorer::plot_bar(df)
+  p2 <- DataExplorer::plot_missing(df)
 
-  # from dataExplorer; useful names of variables: discrete and continuous
-  dnames <-names(split_columns(df)$discrete)
-  cnames <- names(split_columns(df)$continuous)
+  p3 <- DataExplorer::plot_bar(df)
 
-  DataExplorer::plot_intro(df)
-
-  DataExplorer::plot_missing(df)
+  p4 <- DataExplorer::plot_histogram(df)
 
 
+  # table plots from tabplot package:
 
-  # table plots from tabplot package
-    # make ff package work correctly:
-    # with: set options(fftempdir = "path/to/your/folder") to a folder where you have access to
-  #getOption("fftempdir")
-    ##ff:setOptions("fftempdir" = getwd())
-  if (nrow(df) > 50000) {  df = df[sample(rownames(df), size=50), ]  }    ### set this as on option whih could be adjusted
+ if (nrow(df) > 10000) {  df = df[sample(rownames(df), size=10000), ]  }    ### set this as on option whih could be adjusted
 
   plot_list <-
   lapply(cnames, FUN=function(x0) {
-    tabplot::tableplot(dat=df, sortCol=df[[x0]])
+   tabplot::tableplot(dat=df, sortCol=x0)$plot
   }
   )
 
-#------------------------------------------------------------------------
+  plots_all <- list(p1,p2,p3,p4,plot_list)
+
+#--------------------------------------------------
+
+  return(list(description, plots_all))
 
 }
+
+

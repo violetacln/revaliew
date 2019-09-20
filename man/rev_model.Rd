@@ -2,17 +2,20 @@
 % Please edit documentation in R/rev_model.R
 \name{rev_model}
 \alias{rev_model}
-\title{rev_model function
- for main diagnostics on goodness of fit
- residual testing}
+\title{rev_model functions
+ for residual testing and goodness of fit testing
+ where the model is glm type or a time series model}
 \usage{
-rev_model(mts, model_a, ...)
-}
-\arguments{
-\item{mts}{mts=m means glm or lm model, mts=ts means time series model}
+rev_model(model_a, ...)
 }
 \description{
-rev_model function
- for main diagnostics on goodness of fit
- residual testing
+rev_model functions
+ for residual testing and goodness of fit testing
+ where the model is glm type or a time series model
+}
+\examples{
+x <- c(1:30); y <- x^2+rnorm(30,0,2); model_ex = lm(y~x);
+rev_model(model_a= model_ex)
+model_ex_ts # to add an example
+rev_model_ts(model_a=model_ex_ts)
 }

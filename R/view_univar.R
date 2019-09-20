@@ -10,38 +10,29 @@
 #' @import funModeling
 #' @import ggplot2
 #' @import  rmarkdown
+#' @examples view_univar(df = ggplot2::diamonds)
 #' @export
-#' @examples overview_univar(df = ggplot2::diamonds)
-#'
-#'
-#'
+
 view_univar <- function(df, ...) {
 
-
   # names of variables which are discrete and continuous, using DataExplorer
-  dnames <-names(split_columns(df)$discrete)
-  cnames <- names(split_columns(df)$continuous)
+  dnames <-names(DataExplorer::split_columns(df)$discrete)
+  cnames <- names(DataExplorer::split_columns(df)$continuous)
 
-  # univariate distributions, densities and cumulative, for discrete and continuous variables-------------------
-  # pdf's of numerical varaibles
-  funModeling::plot_num(df, bins=10)
-  #or
-  plot_histogram(df)
+  # marginal distributions are already obtained with view_data()
 
   # Cumulative_df's of numerical variables
   # using points
-  lapply(cnames, FUN=function(var) {
-    ggplot(df, aes(df[[var]])) + stat_ecdf(geom = "point") +
-      xlab(df[[var]])
+  plots_cumulative <- lapply(cnames, FUN=function(var) {
+    ggplot2::ggplot(df, ggplot2::aes(df[[var]])) +
+      ggplot2::stat_ecdf(geom = "point") +
+      ggplot2::xlab(var) +
+      ggplot2::ylab("cumulative prob")
   }
   )
 
-  # pdf's of categorical variables
-  # plot_bar(df, maxcat=400L)
-  DataExplorer::plot_bar(df)
-
-  # categorical ecdf not relevant :)
-
+  #----------------------
+ return(plots_cumulative)
 
 }
 

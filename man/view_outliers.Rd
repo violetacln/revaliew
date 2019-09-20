@@ -16,7 +16,5 @@ view_outliers function
 plots and scores for outlier detection
 }
 \examples{
-view_data(df = ggplot2::diamonds)
-
-
+view_outliers(df = datasets::iris[,1:4])
 }

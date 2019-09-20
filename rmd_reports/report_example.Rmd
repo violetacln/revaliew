@@ -1,0 +1,49 @@
+---
+title: "report_example"
+author: ""
+date: ""
+output: 
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+```
+
+
+## Data-set and main information needed
+
+about: time-variables, modeled - variables, imputed-variables
+
+Assume a data-frame has been built.
+
+Example for this run: 
+
+```{r data set choice, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+#df = ...
+
+```
+
+Section 1: Data view
+
+```{r overview, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+```
+
+Section 2: Univariate analysis
+
+```{r univariate, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+# ....
+```
+
+
+
+Section 3: Multivariate analysis
+
+```{r multivariate, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+#...
+```

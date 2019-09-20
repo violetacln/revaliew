@@ -4,64 +4,53 @@
 #' @param df input data
 #' ....other important comments
 #' @import GGally
-#' @import tidyverse
-#' @import magrittr
 #' @import DataExplorer
-#' @import funModeling
 #' @import ggplot2
 #' @import rmarkdown
-#' @import d3heatmap
-#' @import lattice
-#' @import graphics
-#' @import coin
+#' @examples view_multivar(df = ggplot2::diamonds)
 #' @export
-#' @examples overview_multivar(df = ggplot2::diamonds)
-#'
-#'
+
 
 view_multivar <- function(df, ...) {
 
-#-------- multivariate analysis ---------------------------------------
+#------1. pairwise plots for all variables -----------
 
-#---------- pairwise plots for all variables -------
-
-
-# names of variables which are discrete and continuous, using funModeling
+# names of variables which are discrete and continuous
 dnames <- names(DataExplorer::split_columns(df)$discrete)
 cnames <- names(DataExplorer::split_columns(df)$continuous)
+ggplot2::theme_set(ggplot2::theme_bw())
 
-theme_set(theme_bw())
-
-
-# it creates several pages of plots
 # thin it out:
-if (nrow(df) > 50000) {  df = df[sample(rownames(df), size=50), ]  }
-                    ### set this as on option whih could be adjusted
-lapply(dnames, FUN=function(var) {
-    GGally::ggpairs(
-                  df
-                  #select(df,cnames)
-                 ,aes(
-                        colour = df[[var]]
-                      )
+if (nrow(df) > 10000) {  df = df[sample(rownames(df), size=10000), ]  }
+### to set this as on option whih could be adjusted
+
+plots_discr <- lapply(dnames, FUN=function(var) {
+                GGally::ggpairs(
+                  df,
+                  ggplot2::aes(
+                        colour = df[[var]],
+                        cardinality_threshold=50
+                        )
                   )
                                   }
   )
 
 
-## ------ most general correlation plots: for any type of var
+## ---2. general correlation plots: for any type of variables
 
-DataExplorer::plot_correlation(data=df, type = c("all", "discrete", "continuous"),
-          maxcat = 20L, cor_args = list(),
+plot_correl <- DataExplorer::plot_correlation(data=df,
+          type = c("all"),
+          maxcat = 50L, cor_args = list(),
           title = NULL,
-          ggtheme = theme_gray(),
+          ggtheme = ggplot2::theme_gray(),
           theme_config = list(legend.position ="bottom",
-          axis.text.x = element_text(angle=90)))
-
+          axis.text.x = ggplot2::element_text(angle=90)))
 
 #-----------------------------
 
+plots_multivar <- list(plots_discr, plot_correl)
 
+return(plots_multivar)
 
   #---Notes ---------------------------------------------------------------
   #For larger plots and numerical (*or transf into numerical),

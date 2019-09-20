@@ -1,0 +1,324 @@
+---
+title: 'Example 1: real data report: multiple-source education register'
+author: " "
+date: " "
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+```
+
+
+```{r main packages}
+library(ggplot2)
+
+```
+
+
+## Data set and main information needed
+
+about: time-variables, modeled - variables, imputed-variables
+
+Education register, after combining several administrative sources and imputing level and field of education for many records. The variable info_source identifies the ones which are imputed (when it has the value "tilreikna").
+
+For this report, a large sample from the whole register is extracted, for speed and memory reasons but this can be easily run for the whole set.
+
+
+```{r data-frame to be analysed, get the data set}
+
+#df <- ggplot2::diamonds
+ch <- RODBC::odbcDriverConnect("DRIVER={SQL Server}; SERVER=ZEUS; trusted_connection=true")
+df0 <- RODBC::sqlQuery(ch," select gender, info_source, edu, edu_field, country_grad,age, year_graduation, year_birth from adferdir.iwpi.educOut", as.is=TRUE)
+close(ch)
+
+if (nrow(df0) > 30000) {  df <- df0[sample(rownames(df0), size=30000), ]  } 
+
+rm(df0)
+
+```
+
+
+### Output of this report: pdf, html, word. 
+
+### Plots are now static. We will produce soon interactive ones.
+
+### Dashboards are possible
+
+### Main packages and resources:
+
+ggplot2, DataExplorer, funModeling, tabplot, forecast, tsfeatures, anomalous
+
+
+## view_data
+
+### Overview of main data-set characteristics
+
+```{r view_data}
+
+#view_data(df)
+dnames <-names( DataExplorer::split_columns(df)$discrete)
+cnames <- names( DataExplorer::split_columns(df)$continuous)
+
+#short overview
+ Hmisc::describe(df)
+
+# data univariate plots
+  DataExplorer::plot_intro(df)
+  DataExplorer::plot_missing(df)
+  
+  #DataExplorer::plot_bar(df, maxcat=450)
+  funModeling::freq(df)
+  
+  #DataExplorer::plot_histogram(df)
+  funModeling::plot_num(df)
+  
+# table plots from tabplot package, for even smaller sample:
+
+ if (nrow(df) > 10000) {  df_short <- df[sample(rownames(df), size=10000), ]  }    
+  ### set this as on option whih could be adjusted
+
+  #plot_list <-
+  lapply(cnames, FUN=function(x0) {
+   tabplot::tableplot(dat=df_short, sortCol=x0)$plot
+  }
+  )
+  
+```
+
+
+
+## view_univar 
+
+### Marginal cumulative distributions
+```{r view_univar}
+
+ lapply(cnames, FUN=function(var) {
+   ggplot2::ggplot(df, ggplot2::aes(df[[var]])) +     ggplot2::stat_ecdf(geom = "point") +
+   ggplot2::xlab(var)
+  }
+  )
+
+
+```
+
+
+
+## view_multivar 
+
+### Pairwise bivariate distributions and correlation plots
+
+Note that: printing is not yet "addapted" to size of data and paper
+
+
+```{r view_multivar}
+
+#library(ggplot2)
+
+ggplot2::theme_set(ggplot2::theme_bw())
+
+# it creates several pages of plots
+# thin it out:
+
+if (nrow(df) > 100) {  df_short <- df[sample(rownames(df), size=100), ]  }
+              ### set this as on option whih could be adjusted
+
+lapply(dnames, FUN=function(varr) {
+    GGally::ggpairs(
+                  df_short
+                 , ggplot2::aes( colour = df_short[[varr]] ),
+                 cardinality_threshold = 50
+                    )
+                                  }
+       )
+
+
+## ------ most general correlation plots: for any type of var
+# corrr::correlate(df) is an other option
+
+# printing is not perfect
+DataExplorer::plot_correlation(
+      data=df[which(colnames(df) != "year_update" 
+                    & colnames(df) != "year_published")], 
+      type = "all",
+          maxcat = 50L, cor_args = list(),
+          title = NULL,
+          ggtheme = theme_gray(),
+          theme_config = list(legend.position ="bottom",
+          axis.text.x = element_text(angle=90)))
+
+
+
+```
+
+
+
+## view_outliers
+
+### Plots and boxplots,limits based on Tukey and Hampel methods
+
+```{r view_outliers}
+
+# qqplots of continuous variables ------------------
+DataExplorer::plot_qq(df)
+
+# boxplots by each discrete -----------------
+#
+lapply(dnames, FUN=function(varr) {
+  DataExplorer::plot_boxplot( df, by=varr , geom_boxplot_args = list("outlier.color"="red"))
+  }
+      )
+
+# univar limits, using Tukey (interquartiles)
+knitr::kable(
+lapply(cnames, FUN=function(x0) {
+  c(
+    x0,
+    funModeling::tukey_outlier(as.data.frame(df)[[x0]])
+   )
+                                 }
+      )
+, format="markdown", col.names = " "
+            )
+
+
+# univar limits, using Hampel (median based )
+
+knitr::kable(
+  lapply(cnames, FUN=function(x0) {
+
+    c( x0, funModeling::hampel_outlier(df_short[[x0]]) )
+}
+)
+, format="markdown", col.names = " "
+)
+
+
+# more tests for outliers 
+#------ one score for each record, for each variable
+# too long. To find a representation of this!
+
+#lapply(cnames, FUN=function(x0){
+#which(
+#  outliers::scores(df[[x0]], type="t") == TRUE 
+#   )
+ ## other options
+ ## outliers::scores(df[[x0]], type="z")
+
+ ## outliers::scores(df[[x0]], type="iqr")
+ #                             }
+ #      )
+
+#----- comparing many methods, using package "OutliersO3" ---------
+# it works on continuous variables
+
+# comparing two methods
+# could add four more, at least: "BAC", "adjOut", "DDC, "MCD"
+# but this is rather slow even with two
+
+#O3m <- OutliersO3::O3prep(df[cnames], method=c("HDo", "PCS"))
+#O3m1 <- OutliersO3::O3plotM(O3m)
+#gridExtra::grid.arrange(O3m1$gO3, O3m1$gpcp, ncol=1)
+
+
+```
+
+## view_assoc
+
+### With validation rules mining potential.Under development.
+
+```{r view_assoc}
+
+
+```
+
+## view_clusters
+
+### Potentialy identifying unwanted structures or confirming known ones. Under development.
+
+```{r view_clusters}
+
+
+```
+
+## rev_variability 
+
+### information theory based measures, for categorical variables
+
+```{r rev_variability}
+#---------------------- categorical variables
+# use funModeling and information_theory measures, all:
+# entropy (en), mutual information (mi), information gain (ig), gain ratio (gr)
+
+d_res <- c("var1","var2"," "," "," ", " ")
+var1 <- character()
+var2 <- character()
+for (var1 in dnames){
+  for (var2 in dnames)
+    {
+    if(var1 != var2) {
+    d_res <- cbind(d_res, c(var1, var2,funModeling::infor_magic(input = df[[var1]],target =df[[var2]]))) }
+
+    }
+}
+
+d_res
+
+# continuous variables: using boot.ci seems to demand too much memory. To find a better solution
+
+
+```
+
+## rev_ts
+
+### univariate and multivariate time series: detection of anomalous features, tests of stationarity and (auto/cross)-correlation
+
+
+```{r rev_ts}
+#mulitvar ---- with example series
+#tsmultiv <- ts(matrix(rnorm(3000),ncol=100),freq=4)
+#y <- anomalous::tsmeasures(tsmultiv)
+#anomalous::biplot.features(y)
+#anomalous::anomaly(y)
+#tsfeatures::tsfeatures(tsmultiv)
+
+#univar--- with example series
+#tsuniv <- ts(rnorm(1000))
+#tsfeatures::tsfeatures(tsuniv)
+#tseries::jarque.bera.test(tsuniv)
+#tseries::kpss.test(tsuniv)
+#tseries::kpss.test(tsuniv, null = "Trend")
+#tseries::adf.test(tsuniv)
+#forecast::Acf(tsuniv)
+#forecast::Pacf(tsuniv)
+
+```
+
+## rev_model()
+
+### Model testing
+
+```{r rev_model}
+
+
+```
+
+## check_assumptions()
+
+### Checking test or model assumptions aout data
+```{r check_assumptions}
+
+
+```
+
+## reviewed
+
+### Reporting function
+```{r as report}
+
+
+```
+
+

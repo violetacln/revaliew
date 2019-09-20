@@ -2,16 +2,18 @@
 % Please edit documentation in R/rev_variability.R
 \name{rev_variability}
 \alias{rev_variability}
-\title{the basic methods of resampling with replacement, paramteric and nonparametric, are general enough to cover
-main statistics for general data sets and basic modeling formulae
-with confidence intervals and corresponding plots
-for details one is referred to the boot package manual}
+\title{rev_variability function for general data sets}
 \usage{
 rev_variability(df, ...)
 }
+\arguments{
+\item{df}{input data
+...other important comments}
+}
 \description{
-the basic methods of resampling with replacement, paramteric and nonparametric, are general enough to cover
-main statistics for general data sets and basic modeling formulae
-with confidence intervals and corresponding plots
-for details one is referred to the boot package manual
+rev_variability function for general data sets
+}
+\examples{
+rev_variability(df=ggplot2::diamonds)
+
 }
