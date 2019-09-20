@@ -14,17 +14,17 @@ Imports:
     magrittr,
     dplyr,
     tseries,
+    cluster,
+    ggplot2,
+    boot,
+    lmtest
+Suggests:
     DDoutlier, 
     anomalous,
     arules,
-    cluster,
     factoextra,
-    ggplot2,
     SimMultiCorrData,
-    boot,
     vsgoftest,
-    lmtest
-Suggests:
     testthat
 License: What license it uses
 Encoding: UTF-8
