@@ -22,28 +22,97 @@ Example for this run:
 
 ```{r data set choice, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
-#df = ...
+
+## main data set as a data.frame
+#df <- 
+
+##data sets which need to be compared (could be same data measured at different moments in time), as data.frames
+#df1<- 
+#df2<-
+
+##time series we need to explore:
+#tsuniv
+#tsmultiv
 
 ```
 
-Section 1: Data view
+## Data view
 
 ```{r overview, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+view_data(df)
+
 ```
 
 Section 2: Univariate analysis
 
 ```{r univariate, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
-# ....
+view_univar(df)
 ```
 
 
-
-Section 3: Multivariate analysis
+## Multivariate analysis
 
 ```{r multivariate, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
-#...
+view_multivar(df)
 ```
+
+
+## Outliers' detection
+
+```{r outliers, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+view_outliers(df)
+```
+
+
+## Variability in data
+
+```{r variability, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+rev_variability(df)
+```
+
+
+## Checking assumptions about data
+```{r assumptions about data, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+check_assumptions(df1,df2)
+```
+
+## Association rules discovery
+```{r association rules, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+view_assoc(df)
+```
+
+## Clusters identification
+```{r clusters, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+view_clusters(df)
+```
+
+## Reviewing models
+```{r models, glm or ts: residuals and goodness of fit, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+# if a glm type of model, then
+rev_model(model_a)
+#if a time series model, then
+#rev_model_ts(model_a)
+```
+
+## Reviewing time series characteristics
+```{r time series characteristics: univariate and multivariate, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+#for all time series, univariate
+rev_ts_univ(tsuniv)
+#for any multivariate time series
+rev_ts_multiv(tsmultiv)
+```
+
+
+
+
+
