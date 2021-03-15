@@ -1,5 +1,5 @@
 # revaliew
-This package aims to automate basic workflows for advanced data VALidation and REvIEW, by using statistical analysis in order to: 
+This package aims to create automate basic workflows for advanced data VALidation and REvIEW, by using statistical analysis in order to: 
 
 describe the main uni and multi-variate characteristics of a data set;
 
