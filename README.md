@@ -13,5 +13,5 @@ report using quantitative measures and visual representations.
 
 This is based on a large number of excellent and well known R-packages.
 
-The revaliew - package is still under construction. This work is supported by the Eurostat grant number 826000 on validation implementation.
+The revaliew - package is still under construction. This work was partly supported by the Eurostat grant number 826000 on validation implementation.
 
